@@ -19,18 +19,17 @@ class Detalleproducto extends Controller
 	}
 	
 	public function index()
-	{
+	{	
+		$idProducto = $this->request->getPost('producto');
+
 		$data = array(
             'categorias'=>$this->categoria_model->findAll(),
-            'subcategorias'=>$this->subcategoria_model->findAll()
+			'subcategorias'=>$this->subcategoria_model->findAll(),
+			'detalle_producto'=>$this->producto_model->detalle_producto($idProducto)
 		);
 		
-        return view('front_end/template/header',$data).view('front_end/detalleproducto').view('front_end/template/footer');
+        return view('front_end/template/header',$data).view('front_end/detalleproducto',$data).view('front_end/template/footer');
 	}
 
-	public function mostrar_detalle()
-	{
-		$producto = $this->request->getPost('producto');
-	}
 
 }

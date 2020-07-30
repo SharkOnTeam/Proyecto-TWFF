@@ -8,7 +8,7 @@ class ComentarioModel extends Model
     protected $primaryKey = 'idComentario';
 
     protected $returnType     = 'array';
-    protected $useSoftDeletes = false;
+    protected $useSoftDeletes = true;
 
     protected $allowedFields = ['usuario_idUsuario', 'palabraComentario', 'comentario','calificacion','fechaComentario'];
 

@@ -21,13 +21,90 @@
 </head>
 
 <body>
+<style type="text/css">
+    .boton_personalizado_cat{
+        text-decoration: none;
+        padding: 5px;
+        font-weight: 400;
+        font-size: 16px;
+        color: #000000;
+        background-color: #ffffff;
+        border-radius: 1px;
+        border: 2px solid #ffffff;
+        cursor: pointer;
+    }
+    .boton_personalizado_sub{
+        text-decoration: none;
+        padding: 5px;
+        font-weight: 400;
+        font-size: 14px;
+        color: grey;
+        background-color: #ffffff;
+        border-radius: 1px;
+        border: 2px solid #ffffff;
+        cursor: pointer;
+    }
+
+    
+    /* Style The Dropdown Button */
+    .dropbtn {
+        background-color: #ffffff;
+        color: white;
+        padding: 0px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+        display: none;
+        position: relative;
+        background-color: #ffffff;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+        position: relative;
+        min-width: 160px;
+        color: black;
+        padding: 0;
+        text-decoration: none;
+        display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+        background-color: #ffffff;
+        color: black;    
+    }
+
+    /* Show the dropdown menu on hover */
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Change the background color of the dropdown button when the dropdown content is shown */
+    .dropdown:hover .dropbtn {
+        background-color: #ffffff;
+    }
+</style>
     <!-- ##### Header Area Start ##### -->
     <header class="header_area">
         <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between">
             <!-- Classy Menu -->
             <nav class="classy-navbar" id="essenceNav">
                 <!-- Logo -->
-                <a class="nav-brand" href="inicio"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/logo-twff2.png')?>" alt=""></a>
+                <a class="nav-brand" href="inicio"><img class="img-fluid" src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/logo-v2.3.png')?>" alt=""><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/TWFF_letras_v3.png')?>" alt=""></a>
                 <!-- Navbar Toggler -->
                 <div class="classy-navbar-toggler">
                     <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -44,23 +121,36 @@
                         <li><a href="conocenos">Conócenos</a></li>
                             <li><a href="#">Tienda</a>
                                 <div class="megamenu">
+
+                                    <form action="tienda" method="POST">
+                                        <input type="hidden" name="filtro" id="filtro" value="">
+                                        <li class="title"><button class="boton_personalizado_cat" type="submit">Todas los productos</button></li>
+                                    </form>
+
                                     <?php foreach($categorias as $cat):    ?>
                                     <ul class="single-mega cn-col-4">
-                                        <li class="title"><a href="tienda"><?=$cat['categoria']?></a></li>
+                                        <form action="tienda" method="POST">
+                                            <input type="hidden" name="filtro" id="filtro" value="<?=$cat['categoria'];?>">
+                                            <li class="title"><button class="boton_personalizado_cat" type="submit"><?=$cat['categoria']?></button></li>
+                                        </form>
 
                                         <?php foreach($subcategorias as $sub):    
                                             if($cat['idCategoria'] == $sub['categoria_idCategoria']):?>
-                                            <li><a href="tienda"><?=$sub['subcategoria']?></a></li>
+                                            <form action="tienda" method="POST">
+                                                <input type="hidden" name="filtro" id="filtro" value="<?=$sub['subcategoria'];?>">
+                                                <li><button class="boton_personalizado_sub" type="submit"><?=$sub['subcategoria']?></button></li>
+                                            </form>
                                         
                                         <?php 
                                             endif;
                                         endforeach; ?>
                                     </ul>
                                     <?php endforeach; ?>
-                                    <div class="single-mega cn-col-4">
-                                        <a href="tienda">Todas las piñatas</a>
-                                        <img src="<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-nav.png')?>" alt="">
+
+                                    <div class="single-mega cn-col-4 float-right">
+                                        <img src="<?= base_url('TWFF/vendor/template/front_end/img/bg-img/slogan_v1.png')?>" alt="">
                                     </div>
+                                    
                                 </div>
                             </li>
                             <li><a href="ofertas">Ofertas</a></li>
@@ -90,13 +180,23 @@
                 <div class="favourite-area">
                     <a href="favoritos"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/heart.svg')?>" alt=""></a>
                 </div>
-                <!-- User Login Info -->
-                <div class="user-login-info">
-                    <a href="login" id="essenceUserBtn"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/user.svg')?>" alt=""></a>
-                </div>
+                
                 <!-- Cart Area -->
                 <div class="cart-area">
                     <a href="#" id="essenceCartBtn"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/cart.png')?>" alt=""> <span>0</span></a>
+                </div>
+
+                <!-- User Login Info -->
+                <div class="user-login-info">
+                    <div class="dropdown">
+                        <a class="dropbtn" href="#" id="essenceUserBtn"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/user.svg')?>" alt=""></a>
+                        <div class="dropdown-content">
+                            <a href="login">Iniciar sesión</a>
+                            <a href="login">Registrar</a>
+                            <a href="#">Mi cuenta</a>
+                            <a href="#">Cerrar sesión</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 

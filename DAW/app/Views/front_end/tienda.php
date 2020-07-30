@@ -1,10 +1,38 @@
 <!-- ##### Breadcumb Area Start ##### -->
+<style type="text/css">
+  .boton_personalizado{
+    text-decoration: none;
+    padding: 5px;
+    font-weight: 400;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #0315ff;
+    border-radius: 1px;
+    border: 2px solid #ffffff;
+    cursor: pointer;
+    
+  }
+
+  .boton_cat{
+    text-decoration: none;
+    padding: auto;
+    font-weight: 400;
+    font-size: 14px;
+    color: grey;
+    background-color: #ffffff;
+    border: solid #ffffff;
+    cursor: pointer;
+  }
+</style>
+
+
 <div class="breadcumb_area bg-img" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-inicio3.jpeg')?>);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
                     <div class="page-title text-center">
                         <h2>Piñatas</h2>
+                        <h6><?=$nombre?></h6>
                     </div>
                 </div>
             </div>
@@ -28,35 +56,28 @@
                             <div class="catagories-menu">
                                 <ul id="menu-content2" class="menu-content collapse show">
                                     <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#clothing">
-                                        <a href="#">Tardicionales</a>
-                                        <ul class="sub-menu collapse" id="clothing">
-                                            <li><a href="#">Todas</a></li>
-                                            <li><a href="#">Tradicionales de 7 picos</a></li>
-                                            <li><a href="#">Tradicionales de 5 picos</a></li>
+                                    <?php foreach($categorias as $cat):?>
+                                    <li data-toggle="collapse" data-target="#<?=$cat['categoria'];?>">
+                                        <a href="#"><?=$cat['categoria'];?></a>
+                                        
+                                        <ul class="sub-menu collapse" id="<?=$cat['categoria'];?>">
+                                            <form action="tienda" method="POST">
+                                                <input type="hidden" name="filtro" id="filtro" value="<?=$cat['categoria'];?>">
+                                                <button class="boton_cat" type="submit">Todas</button>
+                                            </form>
+                                            <?php foreach($subcategorias as $sub):    
+                                            if($cat['idCategoria'] == $sub['categoria_idCategoria']):?>
+                                                <form action="tienda" method="POST">
+                                                    <input type="hidden" name="filtro" id="filtro" value="<?=$sub['subcategoria'];?>">
+                                                    <button class="boton_cat" type="submit"><?=$sub['subcategoria'];?></button>
+                                                </form>
+                                            <?php 
+                                            endif;
+                                        endforeach; ?>
                                         </ul>
+                                            
                                     </li>
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#shoes" class="collapsed">
-                                        <a href="#">Animadas</a>
-                                        <ul class="sub-menu collapse" id="shoes">
-                                            <li><a href="#">Todas</a></li>
-                                            <li><a href="#">Marvel</a></li>
-                                            <li><a href="#">Disney</a></li>
-                                            <li><a href="#">Pixar</a></li>
-                                            <li><a href="#">Universal</a></li>
-                                        </ul>
-                                    </li>
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#accessories" class="collapsed">
-                                        <a href="#">Especiales</a>
-                                        <ul class="sub-menu collapse" id="accessories">
-                                            <li><a href="#">Todas</a></li>
-                                            <li><a href="#">Eventos</a></li>
-                                            <li><a href="#">Otros</a></li>
-                                            <li><a href="#">Personalizadas</a></li>
-                                        </ul>
-                                    </li>
+                                    <?php endforeach; ?>
                                 </ul>
                             </div>
                         </div>
@@ -70,12 +91,12 @@
 
                             <div class="widget-desc">
                                 <div class="slider-range">
-                                    <div data-min="49" data-max="360" data-unit="$" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="49" data-value-max="360" data-label-result="Rango:">
+                                    <div data-min="0" data-max="3000" data-unit="$" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="0" data-value-max="3000" data-label-result="Rango:">
                                         <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
                                         <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
                                         <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
                                     </div>
-                                    <div class="range-price">Rango: $49.00 - $360.00</div>
+                                    <div class="range-price">Rango: $0.00 - $3000.00</div>
                                 </div>
                             </div>
                         </div>
@@ -98,6 +119,7 @@
                         <div class="row">
 
                             <!-- Single Product -->
+                            
                             <?php foreach($productos as $produc): ?>
                             <div class="col-12 col-sm-6 col-lg-4">
                                 <div class="single-product-wrapper">
@@ -105,12 +127,16 @@
                                     <div class="product-img">
                                         <img src="<?=$produc['imagenProducto'];?>" alt="">
                                         <!-- Hover Thumb -->
-                                        <img class="hover-img" src="<?=$produc['imagenProducto'];?>" alt="">
+                                        <img class="hover-img" src="<?=$produc['imagenProducto2'];?>" alt="">
 
                                         <!-- Product Badge -->
+                                        <?php foreach($proofer as $pro):    
+                                            if($produc['idProducto'] == $pro['idProducto']):?>
                                         <div class="product-badge offer-badge">
-                                            <span>0%</span>
+                                            <span>-<?=$pro['descuento'];?>%</span>
                                         </div>
+                                        <?php endif;
+                                        endforeach;?>
                                         <!-- Favourite -->
                                         <div class="product-favourite">
                                             <a href="#" class="favme fa fa-heart"></a>
@@ -119,14 +145,24 @@
 
                                     <!-- Product Description -->
                                     <div class="product-description">
-                                        <form action="" method="POST">
-                                            <input type="hidden" name="producto" id="Producto">
-                                            <a href="detalleproducto">
-                                                <h6><?=$produc['producto'];?></h6>
-                                            </a>
-                                        </form>
-                                        <p class="product-price"><?=$produc['precio'];?></p>
 
+                                        <h6><?=$produc['producto'];?></h6>
+
+                                        <?php foreach($proofer as $pro):    
+                                            if($produc['idProducto'] == $pro['idProducto']):?>
+                                        <div class="product-badge offer-badge">
+                                            <p class="product-price"><span class="old-price">$<?=$pro['precio'];?></span> $<?=$pro['precioDescuento'];?></p>
+                                        </div>
+                                            <?php else:?>
+                                                <p class="product-price">$<?=$produc['precio'];?></p>
+                                        <?php endif;
+                                        endforeach;?>
+
+
+                                        <form action="detalleproducto" method="POST">
+                                            <input type="hidden" name="producto" id="producto" value="<?=$produc['idProducto'];?>">
+                                            <button class="boton_personalizado" type="submit">Ver detalles</button>
+                                        </form>
                                         <!-- Hover Content -->
                                         <div class="hover-content">
                                             <!-- Add to Cart -->

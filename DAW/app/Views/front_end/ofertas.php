@@ -15,52 +15,6 @@
     <section class="shop_grid_area section-padding-80">
         <div class="container">
             <div class="row">
-                <div class="col-12 col-md-4 col-lg-3">
-                    <div class="shop_sidebar_area">
-
-                        <!-- ##### Single Widget ##### -->
-                        <div class="widget catagory mb-50">
-                            <!-- Widget Title -->
-                            <h6 class="widget-title mb-30">Catagorias</h6>
-
-                            <!--  Catagories  -->
-                            <div class="catagories-menu">
-                                <ul id="menu-content2" class="menu-content collapse show">
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#clothing">
-                                        <a href="#">Tardicionales</a>
-                                        <ul class="sub-menu collapse" id="clothing">
-                                            <li><a href="#">Todas</a></li>
-                                            <li><a href="#">Tradicionales de 7 picos</a></li>
-                                            <li><a href="#">Tradicionales de 5 picos</a></li>
-                                        </ul>
-                                    </li>
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#shoes" class="collapsed">
-                                        <a href="#">Animadas</a>
-                                        <ul class="sub-menu collapse" id="shoes">
-                                            <li><a href="#">Todas</a></li>
-                                            <li><a href="#">Marvel</a></li>
-                                            <li><a href="#">Disney</a></li>
-                                            <li><a href="#">Pixar</a></li>
-                                            <li><a href="#">Universal</a></li>
-                                        </ul>
-                                    </li>
-                                    <!-- Single Item -->
-                                    <li data-toggle="collapse" data-target="#accessories" class="collapsed">
-                                        <a href="#">Especiales</a>
-                                        <ul class="sub-menu collapse" id="accessories">
-                                            <li><a href="#">Todas</a></li>
-                                            <li><a href="#">Eventos</a></li>
-                                            <li><a href="#">Otros</a></li>
-                                            <li><a href="#">Personalizadas</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-12 col-md-8 col-lg-9">
                     <div class="shop_grid_product_area">
@@ -83,13 +37,13 @@
                                 <div class="single-product-wrapper">
                                     <!-- Product Image -->
                                     <div class="product-img">
-                                        <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto2.PNG')?>" alt="">
+                                        <img src="<?=$po['imagenProducto'];?>" alt="">
                                         <!-- Hover Thumb -->
-                                        <img class="hover-img" src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto2.PNG')?>" alt="">
+                                        <img class="hover-img" src="<?=$po['imagenProducto2'];?>" alt="">
 
                                         <!-- Product Badge -->
                                         <div class="product-badge offer-badge">
-                                            <span>-30%</span>
+                                            <span>-<?=$po['descuento'];?>%</span>
                                         </div>
                                         <!-- Favourite -->
                                         <div class="product-favourite">
@@ -99,11 +53,11 @@
 
                                     <!-- Product Description -->
                                     <div class="product-description">
-                                        <span>topshop</span>
+                                        <span>Oferta</span>
                                         <a href="detalleproducto">
-                                            <h6>Knot Front Mini Dress</h6>
+                                            <h6><?=$po['producto'];?></h6>
                                         </a>
-                                        <p class="product-price"><span class="old-price">$75.00</span> $55.00</p>
+                                        <p class="product-price"><span class="old-price">$<?=$po['precio'];?></span> $<?=$po['precioDescuento'];?></p>
 
                                         <!-- Hover Content -->
                                         <div class="hover-content">

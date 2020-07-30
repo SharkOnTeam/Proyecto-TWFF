@@ -1,5 +1,3 @@
-<?php include_once('template/header.php'); ?>
-
 <div class="breadcumb_area bg-img" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-acerca.jpg')?>);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -78,5 +76,3 @@
         </div>
     </div>
     <!-- ##### Checkout Area End ##### -->
-
-<?php include_once('template/footer.php'); ?>

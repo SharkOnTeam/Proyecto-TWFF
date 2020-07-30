@@ -2,20 +2,20 @@
     <section class="single_product_details_area d-flex align-items-center">
 
         <!-- Single Product Thumb -->
+        <?php foreach($detalle_producto as $det): ?>
         <div class="single_product_thumb clearfix">
             <div class="product_thumbnail_slides owl-carousel">
-                <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto2.PNG')?>" alt="">
-                <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto2.PNG')?>" alt="">
-                <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto2.PNG')?>" alt="">
+                <img src="<?=$det['imagenProducto'];?>" alt="" style="width: 85%; height:auto;" class="mx-auto">
+                <img src="<?=$det['imagenProducto2'];?>" alt="" style="width: 85%; height:auto;" class="mx-auto">
             </div>
         </div>
 
         <!-- Single Product Description -->
         <div class="single_product_desc clearfix">
-            <span>mango</span>
-            <h2>One Shoulder Glitter Midi Dress</h2>
-            <p class="product-price"><span class="old-price">$65.00</span> $49.00</p>
-            <p class="product-desc">Mauris viverra cursus ante laoreet eleifend. Donec vel fringilla ante. Aenean finibus velit id urna vehicula, nec maximus est sollicitudin.</p>
+            <span></span>
+            <h2><?=$det['producto'];?></h2>
+            <p class="product-price"><span class="old-price">$65.00</span>$ <?=$det['precio'];?></p>
+            <p class="product-desc"><?=$det['descripcionProducto'];?></p>
 
             <!-- Form -->
             <form class="cart-form clearfix" method="post">
@@ -37,5 +37,6 @@
                 </div>
             </form>
         </div>
+        <?php endforeach; ?>
     </section>
     <!-- ##### Single Product Details Area End ##### -->

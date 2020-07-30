@@ -1,5 +1,19 @@
 <?php //echo $cabecera; ?>
 
+<style type="text/css">
+  .boton_personalizado{
+    text-decoration: none;
+    padding: 5px;
+    font-weight: 400;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #0315ff;
+    border-radius: 1px;
+    border: 2px solid #ffffff;
+    cursor: pointer;
+  }
+</style>
+
     <!-- ##### Welcome Area Start ##### -->
     <section class="welcome_area bg-img background-overlay" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-inicio4.jpeg')?>);">
         <div class="container h-100">
@@ -7,7 +21,7 @@
                 <div class="col-12">
                     <div class="hero-content">
                         <h6>The World Fantasy Frida</h6>
-                        <h2>"Tu sueño hecho realidad"</h2>
+                        <h2>"Tu imaginación hecha realidad"</h2>
                         <a href="tienda" class="btn essence-btn">Ver productos</a>
                     </div>
                 </div>
@@ -21,29 +35,15 @@
         <div class="container">
             <div class="row justify-content-center">
                 <!-- Single Catagory -->
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-tradicional.PNG')?>);">
+                <?php foreach($categorias as $cat):    ?>
+                <div class="col-12 col-sm-6 col-md-4" style="margin-top: 10px;">
+                    <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(<?=$cat['imagenCategoria']?>);">
                         <div class="catagory-content">
-                            <a href="tienda">Tradicionales</a>
+                            <a href="tienda"><?=$cat['categoria']?></a>
                         </div>
                     </div>
                 </div>
-                <!-- Single Catagory -->
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-animado.PNG')?>);">
-                        <div class="catagory-content">
-                            <a href="tienda">Animadas</a>
-                        </div>
-                    </div>
-                </div>
-                <!-- Single Catagory -->
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="single_catagory_area d-flex align-items-center justify-content-center bg-img" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-especial.PNG')?>);">
-                        <div class="catagory-content">
-                            <a href="tienda">Especiales</a>
-                        </div>
-                    </div>
-                </div>
+                <?php endforeach; ?>
             </div>
         </div>
     </div>
@@ -75,7 +75,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="section-heading text-center">
-                        <h2>Popular Products</h2>
+                        <h2>¡Lo más nuevo!</h2>
                     </div>
                 </div>
             </div>
@@ -87,90 +87,45 @@
                     <div class="popular-products-slides owl-carousel">
 
                         <!-- Single Product -->
+                        <?php foreach($productos as $produc):?>
                         <div class="single-product-wrapper">
                             <!-- Product Image -->
                             <div class="product-img">
-                                <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto1.jpg')?>" alt="">
+                                <img src="<?=$produc['imagenProducto'];?>" alt="">
                                 <!-- Hover Thumb -->
-                                <img class="hover-img" src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto1.jpg')?>" alt="">
-                                <!-- Favourite -->
-                                <div class="product-favourite">
-                                    <a href="#" class="favme fa fa-heart"></a>
-                                </div>
-                            </div>
-                            <!-- Product Description -->
-                            <div class="product-description">
-                                <span>topshop</span>
-                                <a href="detalleproducto">
-                                    <h6>Knot Front Mini Dress</h6>
-                                </a>
-                                <p class="product-price">$80.00</p>
-
-                                <!-- Hover Content -->
-                                <div class="hover-content">
-                                    <!-- Add to Cart -->
-                                    <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Agregar al carrito</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Product -->
-                        <div class="single-product-wrapper">
-                            <!-- Product Image -->
-                            <div class="product-img">
-                                <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto2.PNG')?>" alt="">
-                                <!-- Hover Thumb -->
-                                <img class="hover-img" src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto2.PNG')?>" alt="">
-                                <!-- Favourite -->
-                                <div class="product-favourite">
-                                    <a href="#" class="favme fa fa-heart"></a>
-                                </div>
-                            </div>
-                            <!-- Product Description -->
-                            <div class="product-description">
-                                <span>topshop</span>
-                                <a href="detalleproducto">
-                                    <h6>Poplin Displaced Wrap Dress</h6>
-                                </a>
-                                <p class="product-price">$80.00</p>
-
-                                <!-- Hover Content -->
-                                <div class="hover-content">
-                                    <!-- Add to Cart -->
-                                    <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Agregar al carrito</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Single Product -->
-                        <div class="single-product-wrapper">
-                            <!-- Product Image -->
-                            <div class="product-img">
-                                <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto3.PNG')?>" alt="">
-                                <!-- Hover Thumb -->
-                                <img class="hover-img" src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto3.PNG')?>" alt="">
-
+                                <img class="hover-img" src="<?=$produc['imagenProducto2'];?>" alt="">
+                                
                                 <!-- Product Badge -->
-                                <div class="product-badge offer-badge">
-                                    <span>-30%</span>
-                                </div>
-
+                                <?php foreach($proofer as $pro):    
+                                    if($produc['idProducto'] == $pro['idProducto']):?>
+                                        <div class="product-badge offer-badge">
+                                            <span>-<?=$pro['descuento'];?>%</span>
+                                        </div>
+                                    <?php endif;
+                                endforeach;?>
                                 <!-- Favourite -->
                                 <div class="product-favourite">
                                     <a href="#" class="favme fa fa-heart"></a>
                                 </div>
+                                
                             </div>
                             <!-- Product Description -->
                             <div class="product-description">
-                                <span>mango</span>
-                                <a href="detalleproducto">
-                                    <h6>PETITE Crepe Wrap Mini Dress</h6>
-                                </a>
-                                <p class="product-price"><span class="old-price">$75.00</span> $55.00</p>
+                                <span>Producto nuevo</span>
+                                <h6><?=$produc['producto'];?></h6>
+                                <?php foreach($proofer as $pro):    
+                                    if($produc['idProducto'] == $pro['idProducto']):?>
+                                        <div class="product-badge offer-badge">
+                                            <p class="product-price"><span class="old-price">$<?=$pro['precio'];?></span> $<?=$pro['precioDescuento'];?></p>
+                                        </div>
+                                    <?php else:?>
+                                        <p class="product-price">$<?=$produc['precio'];?></p>
+                                <?php endif;
+                                endforeach;?>
+                                <form action="detalleproducto" method="POST">
+                                    <input type="hidden" name="producto" id="producto" value="<?=$produc['idProducto'];?>">
+                                    <button class="boton_personalizado" type="submit">Ver detalles</button>
+                                </form>
 
                                 <!-- Hover Content -->
                                 <div class="hover-content">
@@ -181,42 +136,8 @@
                                 </div>
                             </div>
                         </div>
+                        <?php endforeach;?>
 
-                        <!-- Single Product -->
-                        <div class="single-product-wrapper">
-                            <!-- Product Image -->
-                            <div class="product-img">
-                                <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto4.PNG')?>" alt="">
-                                <!-- Hover Thumb -->
-                                <img class="hover-img" src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto4.PNG')?>" alt="">
-
-                                <!-- Product Badge -->
-                                <div class="product-badge new-badge">
-                                    <span>New</span>
-                                </div>
-
-                                <!-- Favourite -->
-                                <div class="product-favourite">
-                                    <a href="#" class="favme fa fa-heart"></a>
-                                </div>
-                            </div>
-                            <!-- Product Description -->
-                            <div class="product-description">
-                                <span>mango</span>
-                                <a href="detalleproducto">
-                                    <h6>PETITE Belted Jumper Dress</h6>
-                                </a>
-                                <p class="product-price">$80.00</p>
-
-                                <!-- Hover Content -->
-                                <div class="hover-content">
-                                    <!-- Add to Cart -->
-                                    <div class="add-to-cart-btn">
-                                        <a href="#" class="btn essence-btn">Agregar al carrito</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>

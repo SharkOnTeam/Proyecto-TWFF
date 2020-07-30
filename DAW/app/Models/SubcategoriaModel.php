@@ -8,7 +8,7 @@ class SubcategoriaModel extends Model
     protected $primaryKey = 'idSubategoria';
 
     protected $returnType     = 'array';
-    protected $useSoftDeletes = false;
+    protected $useSoftDeletes = true;
 
     protected $allowedFields = ['categoria_idCategoria', 'subcategoria'];
 

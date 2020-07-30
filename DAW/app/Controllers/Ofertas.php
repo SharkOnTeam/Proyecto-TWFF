@@ -24,10 +24,11 @@ class Ofertas extends Controller
 		$data = array(
             'categorias'=>$this->categoria_model->findAll(),
 			'subcategorias'=>$this->subcategoria_model->findAll(),
-			'proofer'=>$this->oferta_model->findAll()
+			'proofer'=>$this->oferta_model->detalle_producto_oferta()
         );
 
-		//echo $data;
+		//echo '<pre>';
+		//print_r($data);
 
 		return view('front_end/template/header',$data).view('front_end/ofertas',$data).view('front_end/template/footer');
 	}
