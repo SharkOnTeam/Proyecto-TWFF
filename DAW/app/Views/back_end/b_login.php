@@ -6,14 +6,14 @@
                     <div class="login-content">
                         <div class="login-logo">
                             <a href="#">
-                                <img src="<?= base_url('TWFF/vendor/template/back_end/images/icon/logo.png')?>" alt="CoolAdmin">
+                                <img src="<?= base_url('TWFF/vendor/template/back_end/images/logo-v2.3.png')?>" alt="TWFF"><img src="<?= base_url('TWFF/vendor/template/back_end/images/TWFF_letras_v3.png')?>" alt="TWFF">
                             </a>
                         </div>
                         <div class="login-form">
-                            <form action="" method="post">
+                            <form action="usuario/iniciar_sesion" method="post">
                                 <div class="form-group">
-                                    <label>Email Address</label>
-                                    <input class="au-input au-input--full" type="email" name="email" placeholder="Email">
+                                    <label>Usuario</label>
+                                    <input class="au-input au-input--full" type="usuario" name="usuario" placeholder="Email">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>
@@ -21,19 +21,13 @@
                                 </div>
                                 <div class="login-checkbox">
                                     <label>
-                                        <input type="checkbox" name="remember">Remember Me
-                                    </label>
-                                    <label>
-                                        <a href="#">Forgotten Password?</a>
+                                        <a href="#">¿Olvidaste tu contraseña?</a>
                                     </label>
                                 </div>
-                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">sign in</button>
+                                <button class="au-btn au-btn--block au-btn--green m-b-20" type="submit">Iniciar sesión</button>
                             </form>
                             <div class="register-link">
-                                <p>
-                                    Don't you have account?
-                                    <a href="#">Sign Up Here</a>
-                                </p>
+                                
                             </div>
                         </div>
                     </div>

@@ -22,6 +22,7 @@ class Ofertas extends Controller
 	{
 
 		$data = array(
+			'titulo'=>'Ofertas-TWFF',
             'categorias'=>$this->categoria_model->findAll(),
 			'subcategorias'=>$this->subcategoria_model->findAll(),
 			'proofer'=>$this->oferta_model->detalle_producto_oferta()

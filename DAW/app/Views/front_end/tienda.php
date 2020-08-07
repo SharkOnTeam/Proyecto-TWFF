@@ -1,3 +1,4 @@
+<?php $session = session()?>
 <!-- ##### Breadcumb Area Start ##### -->
 <style type="text/css">
   .boton_personalizado{
@@ -56,50 +57,48 @@
                             <div class="catagories-menu">
                                 <ul id="menu-content2" class="menu-content collapse show">
                                     <!-- Single Item -->
-                                    <?php foreach($categorias as $cat):?>
-                                    <li data-toggle="collapse" data-target="#<?=$cat['categoria'];?>">
-                                        <a href="#"><?=$cat['categoria'];?></a>
-                                        
-                                        <ul class="sub-menu collapse" id="<?=$cat['categoria'];?>">
-                                            <form action="tienda" method="POST">
-                                                <input type="hidden" name="filtro" id="filtro" value="<?=$cat['categoria'];?>">
-                                                <button class="boton_cat" type="submit">Todas</button>
-                                            </form>
-                                            <?php foreach($subcategorias as $sub):    
-                                            if($cat['idCategoria'] == $sub['categoria_idCategoria']):?>
-                                                <form action="tienda" method="POST">
-                                                    <input type="hidden" name="filtro" id="filtro" value="<?=$sub['subcategoria'];?>">
-                                                    <button class="boton_cat" type="submit"><?=$sub['subcategoria'];?></button>
-                                                </form>
-                                            <?php 
-                                            endif;
-                                        endforeach; ?>
-                                        </ul>
-                                            
-                                    </li>
-                                    <?php endforeach; ?>
+                                    
+                                    <?php if(count($categorias)>0):
+                                        foreach($categorias as $cat):
+                                            if($cat['deleted']==1): ?>
+                                                <li data-toggle="collapse" data-target="#<?=$cat['categoria'];?>">
+                                                    <a href="#"><?=$cat['categoria'];?></a>
+                                                    
+                                                    <ul class="sub-menu collapse" id="<?=$cat['categoria'];?>">
+                                                        <form action="tienda" method="POST">
+                                                            <input type="hidden" name="filtro" id="filtro" value="<?=$cat['categoria'];?>">
+                                                            <button class="boton_cat" type="submit">Todas</button>
+                                                        </form>
+
+                                                        <?php if(count($subcategorias)>0):
+                                                            foreach($subcategorias as $sub):  
+                                                                if($sub['deleted']==1):  
+                                                                    if($cat['idCategoria'] == $sub['categoria_idCategoria']):?>
+                                                                        <form action="tienda" method="POST">
+                                                                            <input type="hidden" name="filtro" id="filtro" value="<?=$sub['subcategoria'];?>">
+                                                                            <button class="boton_cat" type="submit"><?=$sub['subcategoria'];?></button>
+                                                                        </form>
+                                                                    <?php 
+                                                                    endif;
+                                                                endif;
+                                                            endforeach; 
+                                                        else:?>
+                                                        <h3>No hay subcategorías registradas</h3>
+                                                        <?php endif;?>
+
+                                                    </ul>
+                                                        
+                                                </li>
+                                        <?php endif; 
+                                        endforeach; 
+                                    else:?>
+                                    <h3>No hay categorías registradas</h3>
+                                    <?php endif;?>
+                                    
                                 </ul>
                             </div>
                         </div>
 
-                        <!-- ##### Single Widget ##### -->
-                        <div class="widget price mb-50">
-                            <!-- Widget Title -->
-                            <h6 class="widget-title mb-30">Filtrar por</h6>
-                            <!-- Widget Title 2 -->
-                            <p class="widget-title2 mb-30">Precio</p>
-
-                            <div class="widget-desc">
-                                <div class="slider-range">
-                                    <div data-min="0" data-max="3000" data-unit="$" class="slider-range-price ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all" data-value-min="0" data-value-max="3000" data-label-result="Rango:">
-                                        <div class="ui-slider-range ui-widget-header ui-corner-all"></div>
-                                        <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                                        <span class="ui-slider-handle ui-state-default ui-corner-all" tabindex="0"></span>
-                                    </div>
-                                    <div class="range-price">Rango: $0.00 - $3000.00</div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -120,60 +119,94 @@
 
                             <!-- Single Product -->
                             
-                            <?php foreach($productos as $produc): ?>
-                            <div class="col-12 col-sm-6 col-lg-4">
-                                <div class="single-product-wrapper">
-                                    <!-- Product Image -->
-                                    <div class="product-img">
-                                        <img src="<?=$produc['imagenProducto'];?>" alt="">
-                                        <!-- Hover Thumb -->
-                                        <img class="hover-img" src="<?=$produc['imagenProducto2'];?>" alt="">
+                            <?php if(count($productos)>0):
+                                foreach($productos as $produc): 
+                                    if($produc['deleted'] == 1):?>                                  
+                                        <div class="col-12 col-sm-6 col-lg-4">
+                                            <div class="single-product-wrapper">
+                                                <!-- Product Image -->
+                                                <div class="product-img">
+                                                    <img src="<?=base_url('TWFF/vendor/uploads').'/'.$produc['imagenProducto'];?>" alt="">
+                                                    <!-- Hover Thumb -->
+                                                    <img class="hover-img" src="<?=base_url('TWFF/vendor/uploads').'/'.$produc['imagenProducto2'];?>" alt="">
 
-                                        <!-- Product Badge -->
-                                        <?php foreach($proofer as $pro):    
-                                            if($produc['idProducto'] == $pro['idProducto']):?>
-                                        <div class="product-badge offer-badge">
-                                            <span>-<?=$pro['descuento'];?>%</span>
-                                        </div>
-                                        <?php endif;
-                                        endforeach;?>
-                                        <!-- Favourite -->
-                                        <div class="product-favourite">
-                                            <a href="#" class="favme fa fa-heart"></a>
-                                        </div>
-                                    </div>
+                                                    <!-- Product Badge -->
+                                                    <?php if(count($proofer)>0):
+                                                        foreach($proofer as $pro): 
+                                                            if($pro['deleted'] == 1):   
+                                                                if($produc['idProducto'] == $pro['idProducto']):?>
+                                                                    <div class="product-badge offer-badge">
+                                                                        <span>-<?=$pro['descuento'];?> %</span>
+                                                                    </div>
+                                                            <?php endif;
+                                                            endif;
+                                                        endforeach;
+                                                    endif;?>
+                                                    <!-- Favourite -->
+                                                    <div class="product-favourite">
+                                                        <a href="#" class="favme fa fa-heart"></a>
+                                                    </div>
+                                                </div>
 
-                                    <!-- Product Description -->
-                                    <div class="product-description">
+                                                <!-- Product Description -->
+                                                <div class="product-description">
 
-                                        <h6><?=$produc['producto'];?></h6>
+                                                    <h6><?=$produc['producto'];?></h6>
 
-                                        <?php foreach($proofer as $pro):    
-                                            if($produc['idProducto'] == $pro['idProducto']):?>
-                                        <div class="product-badge offer-badge">
-                                            <p class="product-price"><span class="old-price">$<?=$pro['precio'];?></span> $<?=$pro['precioDescuento'];?></p>
-                                        </div>
-                                            <?php else:?>
-                                                <p class="product-price">$<?=$produc['precio'];?></p>
-                                        <?php endif;
-                                        endforeach;?>
+                                                    <?php foreach($proofer as $pro):    
+                                                        if($produc['idProducto'] == $pro['idProducto']):?>
+                                                    <div class="product-badge offer-badge">
+                                                        <p class="product-price">Menudeo: <span class="old-price">$<?=$pro['precioMenudeo'];?></span> $<?=$pro['precioDescuento'];?></p>
+                                                        <p class="product-price">Mayoreo: $<?=$produc['precioMayoreo'];?></p>
+                                                    </div>
+                                                        <?php else:?>
+                                                            <p class="product-price">Menudeo: $<?=$produc['precioMenudeo'];?></p>
+                                                            <p class="product-price">Mayoreo: $<?=$produc['precioMayoreo'];?></p>
+                                                    <?php endif;
+                                                    endforeach;?>
 
 
-                                        <form action="detalleproducto" method="POST">
-                                            <input type="hidden" name="producto" id="producto" value="<?=$produc['idProducto'];?>">
-                                            <button class="boton_personalizado" type="submit">Ver detalles</button>
-                                        </form>
-                                        <!-- Hover Content -->
-                                        <div class="hover-content">
-                                            <!-- Add to Cart -->
-                                            <div class="add-to-cart-btn">
-                                                <a href="#" class="btn essence-btn">Agregar al carrito</a>
+                                                    <form action="detalleproducto" method="POST">
+                                                        <input type="hidden" name="producto" id="producto" value="<?=$produc['idProducto'];?>">
+                                                        <button class="boton_personalizado" type="submit">Ver detalles</button>
+                                                    </form>
+                                                    <!-- Hover Content -->
+                                                    <div class="hover-content">
+                                                        <!-- Add to Cart -->
+                                                        <div class="add-to-cart-btn">
+                                                            <form action="mi_carrito/carrito" method="POST">
+
+                                                                <input type="hidden" name="idProducto" value="<?=$produc['idProducto'];?>">
+                                                                <input type="hidden" name="producto" value="<?=$produc['producto'];?>">
+                                                                <input type="hidden" name="precioMenudeo" value="<?=$produc['precioMenudeo'];?>">
+                                                                <input type="hidden" name="precioMayoreo" value="<?=$produc['precioMayoreo'];?>">
+                                                                <input type="hidden" name="descripcionProducto" value="<?=$produc['descripcionProducto'];?>">
+                                                                <input type="hidden" name="cantidad" value="1">
+                                                                <input type="hidden" name="stock" value="<?=$produc['stock'];?>">
+                                                                <input type="hidden" name="imagenProducto" value="<?=$produc['imagenProducto'];?>">
+
+                                                                <?php foreach($proofer as $pro):    
+                                                                    if($produc['idProducto'] == $pro['idProducto']):?>
+                                                                        <input type="hidden" name="descuento" value="<?=$pro['descuento'];?>">
+                                                                        <input type="hidden" name="precioDescuento" value="<?=$pro['precioDescuento'];?>">
+                                                                    <?php else:?>
+                                                                        <input type="hidden" name="descuento" value="0">
+                                                                        <input type="hidden" name="precioDescuento" value="<?=$produc['precioMenudeo'];?>">
+                                                                    <?php endif;
+                                                                endforeach;?>
+
+                                                                <button class="btn essence-btn" type="submit">Agregar al carrito</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php endforeach; ?>
+                            <?php   endif;
+                                endforeach; 
+                            else:?>
+                                <h3>No hay productos.</h3>
+                            <?php endif;?>
                             
 
                         </div>

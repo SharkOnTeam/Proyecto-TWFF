@@ -1,3 +1,4 @@
+<?php $session = session()?>
 <!-- ##### Blog Wrapper Area Start ##### -->
 <div class="single-blog-wrapper">
 

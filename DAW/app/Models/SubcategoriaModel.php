@@ -5,25 +5,25 @@ use CodeIgniter\Model;
 class SubcategoriaModel extends Model
 {
     protected $table      = 'subcategoria';
-    protected $primaryKey = 'idSubategoria';
+    protected $primaryKey = 'idSubcategoria';
 
     protected $returnType     = 'array';
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['categoria_idCategoria', 'subcategoria'];
+    protected $allowedFields = ['categoria_idCategoria', 'subcategoria','deleted'];
 
-    /*protected $validationRules = [
-            'user' => 'required|min_length(5)|is_unique',
-            'pass' => 'required|min_length(8)'
-        ];
+    protected $validationRules = [
+        'subcategoria' => 'trim|alpha_numeric_space'
+    ];
 
     protected $validationMessages = [
-        'user' => [
-                    'required' => 'El usuario es obligatorio',
-                    'is_unique' => 'Ya existe un usuario con ese nombre'
-                ]
-        ];*/
-    
+        'subcategoria' => [
+            'alpha_numeric_space' => 'Sólo se premiten letras y números.'
+        ]
+    ];
+
+    protected $skipValidation = false;
+
     public function cat_subcat()
     {   
         $db = \Config\Database::connect();
@@ -34,5 +34,37 @@ class SubcategoriaModel extends Model
         return $query->getResultArray(); 
             //echo '<pre>';
             //print_r($query->getResultArray());
+    }
+
+    public function getSubByNombre($buscar){
+        $db = \Config\Database::connect();
+        $builder = $db->table('subcategoria');
+        $builder->select('*');
+        $builder->like('subcategoria',$buscar,'both');
+        $query = $builder->get();
+        return $query->getResultArray();
+        //echo '<pre>';
+        //print_r($query->getResultArray());
+    }
+
+    public function getSubById($idSubcategoria){
+        $db = \Config\Database::connect();
+        $builder = $db->table('subcategoria');
+        $builder->select('*');
+        $builder->where('idSubcategoria',$idSubcategoria);
+        $query = $builder->get();
+        return $query->getResultArray();
+        //echo '<pre>';
+        //print_r($query->getResultArray());
+    }
+
+    public function getSubCategoria(){
+        $db = \Config\Database::connect();
+        $builder = $db->table('subcategoria');
+        $builder->select('subcategoria');
+        $query = $builder->get();
+        return $query->getResultArray();
+        //echo '<pre>';
+        //print_r($query->getResultArray());
     }
 }

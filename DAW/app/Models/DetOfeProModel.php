@@ -8,7 +8,7 @@ class DetOfeProModel extends Model
     protected $primaryKey = 'idDetalleproductooferta';
 
     protected $returnType     = 'array';
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
 
     protected $allowedFields = ['producto_idProducto', 'oferta_idOferta', 'precioDescuento'];
 
@@ -35,4 +35,5 @@ class DetOfeProModel extends Model
         $query = $builder->get();
         return $query->getResultArray();
     }
+
 }

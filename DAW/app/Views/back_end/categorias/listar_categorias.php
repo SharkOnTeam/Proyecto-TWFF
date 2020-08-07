@@ -1,3 +1,4 @@
+<?php $session = session();?>
 <script type="text/javascript">
     function confirmation() 
     {
@@ -13,6 +14,29 @@
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
+
+                    <?php if($session->getFlashdata('alerta_exitosa') != null): ?>
+                            <div class="col-sm-12" id="alerta_unico">
+                                <div class="sufee-alert alert with-close alert-success alert-dismissible fade show">
+                                    <span class="badge badge-pill badge-success"><i class="fa fa-check"></i></span>
+                                     <?=$session->getFlashdata('alerta_exitosa')?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                    <?php endif;?>
+                    <?php if($session->getFlashdata('alerta_categoria') != null): ?>
+                            <div class="col-sm-12" id="alerta_unico">
+                                <div class="sufee-alert alert with-close alert-warning alert-dismissible fade show">
+                                    <span class="badge badge-pill badge-warning">Error </span>
+                                     <?=$session->getFlashdata('alerta_categoria')?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                    <?php endif;?>
                         
                         <h2>Categorías</h2>
 
@@ -46,7 +70,7 @@
                                     </div>
                                 </div>
                         </div>
-
+                            
                                 <div class="table-responsive m-b-40">
                                     <table class="table table-borderless table-data3">
                                         <thead>
@@ -62,7 +86,7 @@
                                             <?php foreach($categorias as $cat): ?>
                                             <tr>
                                                 <td><?=$cat['idCategoria'];?></td>
-                                                <td> <img class="img-fluid" src="<?=$cat['imagenCategoria'];?>" alt="" style="max-width: 130px;"> </td>
+                                                <td><img class="img-fluid" src="<?=base_url('TWFF/vendor/uploads/').'/'.$cat['imagenCategoria']?>" alt="" style="max-width: 130px;"> </td>
                                                 <td><?=$cat['categoria'];?></td>
                                                 <td class="<?php if($cat['deleted']==1):echo 'process';else:echo 'denied';endif;?>">
                                                     <?php if($cat['deleted']==1):?>
@@ -81,6 +105,7 @@
                                                         </form>
                                                         <form action="categoria/eliminar_categoria" method="POST">
                                                         <input type="hidden" value="<?=$cat['idCategoria'];?>" name="idCategoria">
+                                                        <input type="hidden" value="<?=$cat['imagenCategoria'];?>" name="imagenCategoria">
                                                         <button class="item" data-toggle="tooltip" data-placement="top" title="Eliminar" onclick="return confirmation()">
                                                             <i class="fa fa-trash"></i>
                                                         </button>

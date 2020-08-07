@@ -1,3 +1,4 @@
+<?php $session = session()?>
 <div class="breadcumb_area bg-img" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-oferta2.png')?>);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -32,45 +33,48 @@
                         <div class="row">
 
                             <!-- Single Product -->
-                            <?php foreach($proofer as $po): ?>
-                            <div class="col-12 col-sm-6 col-lg-4">
-                                <div class="single-product-wrapper">
-                                    <!-- Product Image -->
-                                    <div class="product-img">
-                                        <img src="<?=$po['imagenProducto'];?>" alt="">
-                                        <!-- Hover Thumb -->
-                                        <img class="hover-img" src="<?=$po['imagenProducto2'];?>" alt="">
+                            <?php if(count($proofer)>0):
+                                foreach($proofer as $po): ?>
+                                    <div class="col-12 col-sm-6 col-lg-4">
+                                        <div class="single-product-wrapper">
+                                            <!-- Product Image -->
+                                            <div class="product-img">
+                                                <img src="<?=$po['imagenProducto'];?>" alt="">
+                                                <!-- Hover Thumb -->
+                                                <img class="hover-img" src="<?=$po['imagenProducto2'];?>" alt="">
 
-                                        <!-- Product Badge -->
-                                        <div class="product-badge offer-badge">
-                                            <span>-<?=$po['descuento'];?>%</span>
-                                        </div>
-                                        <!-- Favourite -->
-                                        <div class="product-favourite">
-                                            <a href="#" class="favme fa fa-heart"></a>
-                                        </div>
-                                    </div>
+                                                <!-- Product Badge -->
+                                                <div class="product-badge offer-badge">
+                                                    <span>-<?=$po['descuento'];?>%</span>
+                                                </div>
+                                                <!-- Favourite -->
+                                                <div class="product-favourite">
+                                                    <a href="#" class="favme fa fa-heart"></a>
+                                                </div>
+                                            </div>
 
-                                    <!-- Product Description -->
-                                    <div class="product-description">
-                                        <span>Oferta</span>
-                                        <a href="detalleproducto">
-                                            <h6><?=$po['producto'];?></h6>
-                                        </a>
-                                        <p class="product-price"><span class="old-price">$<?=$po['precio'];?></span> $<?=$po['precioDescuento'];?></p>
+                                            <!-- Product Description -->
+                                            <div class="product-description">
+                                                <span>Oferta</span>
+                                                <a href="detalleproducto">
+                                                    <h6><?=$po['producto'];?></h6>
+                                                </a>
+                                                <p class="product-price"><span class="old-price">$<?=$po['precio'];?></span> $<?=$po['precioDescuento'];?></p>
 
-                                        <!-- Hover Content -->
-                                        <div class="hover-content">
-                                            <!-- Add to Cart -->
-                                            <div class="add-to-cart-btn">
-                                                <a href="#" class="btn essence-btn">Agregar al carrito</a>
+                                                <!-- Hover Content -->
+                                                <div class="hover-content">
+                                                    <!-- Add to Cart -->
+                                                    <div class="add-to-cart-btn">
+                                                        <a href="#" class="btn essence-btn">Agregar al carrito</a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <?php endforeach; ?>
-                            
+                            <?php endforeach; 
+                            else:?>
+                                <h3>No hay ofertas.</h3>
+                            <?php endif;?>
 
                         </div>
                     </div>

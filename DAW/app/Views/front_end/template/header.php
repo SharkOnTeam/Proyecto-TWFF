@@ -1,3 +1,4 @@
+<?php $session = session()?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,7 +10,7 @@
     <!-- The above 4 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <!-- Title  -->
-    <title>The World Fantasy Frida</title>
+    <title><?=$titulo?></title>
 
     <!-- Favicon  -->
     <link rel="icon" href="<?= base_url('TWFF/vendor/template/front_end/img/core-img/icon-twff.ico')?>">
@@ -17,6 +18,7 @@
     <!-- Core Style CSS -->
     <link rel="stylesheet" href="<?= base_url('TWFF/vendor/template/front_end/css/core-style.css')?>" type="text/css">
     <link rel="stylesheet" href="<?= base_url('TWFF/vendor/template/front_end/css/style.css')?>">
+    <link rel="stylesheet" href="<?= base_url('TWFF/vendor/template/front_end/css/estilo.css')?>">
 
 </head>
 
@@ -127,25 +129,27 @@
                                         <li class="title"><button class="boton_personalizado_cat" type="submit">Todas los productos</button></li>
                                     </form>
 
-                                    <?php foreach($categorias as $cat):    ?>
-                                    <ul class="single-mega cn-col-4">
-                                        <form action="tienda" method="POST">
-                                            <input type="hidden" name="filtro" id="filtro" value="<?=$cat['categoria'];?>">
-                                            <li class="title"><button class="boton_personalizado_cat" type="submit"><?=$cat['categoria']?></button></li>
-                                        </form>
-
-                                        <?php foreach($subcategorias as $sub):    
-                                            if($cat['idCategoria'] == $sub['categoria_idCategoria']):?>
+                                    <?php foreach($categorias as $cat):
+                                        if($cat['deleted'] == 1):?>
+                                            <ul class="single-mega cn-col-4">
                                             <form action="tienda" method="POST">
-                                                <input type="hidden" name="filtro" id="filtro" value="<?=$sub['subcategoria'];?>">
-                                                <li><button class="boton_personalizado_sub" type="submit"><?=$sub['subcategoria']?></button></li>
+                                                <input type="hidden" name="filtro" id="filtro" value="<?=$cat['categoria'];?>">
+                                                <li class="title"><button class="boton_personalizado_cat" type="submit"><?=$cat['categoria']?></button></li>
                                             </form>
-                                        
-                                        <?php 
-                                            endif;
-                                        endforeach; ?>
-                                    </ul>
-                                    <?php endforeach; ?>
+
+                                            <?php foreach($subcategorias as $sub): 
+                                                if($sub['deleted']==1):   
+                                                    if($cat['idCategoria'] == $sub['categoria_idCategoria']):?>
+                                                        <form action="tienda" method="POST">
+                                                            <input type="hidden" name="filtro" id="filtro" value="<?=$sub['subcategoria'];?>">
+                                                            <li><button class="boton_personalizado_sub" type="submit"><?=$sub['subcategoria']?></button></li>
+                                                        </form>
+                                                <?php endif;
+                                                endif;
+                                            endforeach; ?>
+                                        </ul>
+                                    <?php endif;
+                                    endforeach; ?>
 
                                     <div class="single-mega cn-col-4 float-right">
                                         <img src="<?= base_url('TWFF/vendor/template/front_end/img/bg-img/slogan_v1.png')?>" alt="">
@@ -183,7 +187,30 @@
                 
                 <!-- Cart Area -->
                 <div class="cart-area">
-                    <a href="#" id="essenceCartBtn"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/cart.png')?>" alt=""> <span>0</span></a>
+                    <a href="#" id="essenceCartBtn"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/cart.png')?>" alt=""> 
+                    <?php if($session->has('usuario')):
+                        if($session->has('mi_carrito')):
+                            $carrito = $session->get('mi_carrito');
+                            $numero_producto = 0;
+                            for($i = 0; $i < count($carrito); $i++):
+
+                                if($carrito[$i] != null):
+                
+                                    $numero_producto = $numero_producto + 1;
+                
+                                endif;
+                
+                            endfor;
+
+                            echo '<span>'.$numero_producto.'</span>';
+                        else:
+                            echo '<span>0</span>';
+                        endif;
+                    else:
+                        echo '<span>0</span>';
+                    endif;
+                    ?> 
+                    </a>
                 </div>
 
                 <!-- User Login Info -->
@@ -191,10 +218,10 @@
                     <div class="dropdown">
                         <a class="dropbtn" href="#" id="essenceUserBtn"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/user.svg')?>" alt=""></a>
                         <div class="dropdown-content">
-                            <a href="login">Iniciar sesión</a>
-                            <a href="login">Registrar</a>
-                            <a href="#">Mi cuenta</a>
-                            <a href="#">Cerrar sesión</a>
+                            <?php if($session->has('usuario')){ ?><?php }else{?> <a href="login">Iniciar sesión</a> <?php } ?>
+                            <?php if($session->has('usuario')){ ?><?php }else{?>  <a href="login">Registrar</a><?php } ?>
+                            <?php if($session->has('usuario')){ ?> <a href="miperfil">Mi cuenta</a> <?php } ?>
+                            <?php if($session->has('usuario')){ ?> <a href="usuario/cerrar_sesion">Cerrar sesión</a> <?php } ?>
                         </div>
                     </div>
                 </div>
@@ -211,44 +238,165 @@
 
         <!-- Cart Button -->
         <div class="cart-button">
-            <a href="#" id="rightSideCart"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/cart.png')?>" alt=""> <span>0</span></a>
+            <a href="#" id="rightSideCart"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/cart.png')?>" alt=""> 
+            <?php if($session->has('usuario')):
+                if($session->has('mi_carrito')):
+                    $carrito = $session->get('mi_carrito');
+                    $numero_producto = 0;
+                    for($i = 0; $i < count($carrito); $i++):
+                        if($carrito[$i] != null):               
+                            $numero_producto = $numero_producto + 1;               
+                        endif;                
+                    endfor;
+                        echo '<span>'.$numero_producto.'</span>';
+                    else:
+                        echo '<span>0</span>';
+                    endif;
+                else:
+                    echo '<span>0</span>';
+                endif;
+            ?> 
+            </a>
         </div>
 
-        <div class="cart-content d-flex">
+        <?php if($session->has('usuario')):
+            if($session->has('mi_carrito')):
+            $numero_producto = 0;
 
-            <!-- Cart List Area -->
-            <div class="cart-list">
-                <!-- Single Cart Item -->
-                <div class="single-cart-item">
-                    <a href="#" class="product-image">
-                        <img src="<?= base_url('TWFF/vendor/template/front_end/img/product-img/producto1.jpg')?>" class="cart-thumb" alt="">
-                        <!-- Cart Item Desc -->
-                        <div class="cart-item-desc">
-                          <span class="product-remove"><i class="fa fa-close" aria-hidden="true"></i></span>
-                            <span class="badge">Unicornio</span>
-                            <h6>Cara de unicornio</h6>
-                            <p class="size">Tamaño: Mediano</p>
-                            <p class="price">$45.00</p>
+            $carrito = $session->get('mi_carrito');
+
+            for($i = 0; $i < count($carrito); $i++):
+
+                if($carrito[$i] != null):
+
+                    $numero_producto = $numero_producto + 1;
+
+                endif;
+
+            endfor;
+
+            if($numero_producto > 0):
+            ?> 
+
+                <div class="cart-content d-flex">
+                    
+                    <!-- Cart List Area -->
+                    <div class="cart-list">
+                        <!-- Single Cart Item -->
+                        <?php  
+                        if (isset($carrito)):
+                            for ($i=0; $i < count($carrito); $i++): 								
+                                if ($carrito[$i] != null) :
+                            ?>
+                        <div class="single-cart-item">
+                            <a class="product-image">
+                                <img src="<?= base_url('TWFF/vendor/uploads').'/'.$carrito[$i]['imagenProducto']?>" class="cart-thumb" alt="">
+                                <!-- Cart Item Desc -->
+                                <div class="cart-item-desc">
+                                    <form action="mi_carrito/eliminar_carrito" method="POST">
+                                        <input type="hidden" name="idProductoEliminar" value="<?=$i;?>">
+                                        <span class="product-remove"><button class="btn" type="submit"><i class="fa fa-close" aria-hidden="true"></i></button></span>
+                                    </form>
+                                    <span class="badge"><?=$carrito[$i]['producto']; ?></span>
+                                    <h6><?=$carrito[$i]['descripcionProducto']; ?></h6>
+                                    <p class="color">Precio menudeo: <?=$carrito[$i]['precioMenudeo']?></p>
+                                    <p class="color">Precio mayoreo: <?=$carrito[$i]['precioMayoreo']?></p>
+                                    <?php if($carrito[$i]['descuento'] > 0): ?>
+                                    <p class="color">Descuento: <?=$carrito[$i]['descuento'];?>%</p>  
+                                    <?php endif;?>
+                                </div>
+                            </a>
                         </div>
-                    </a>
+
+                        <?php	
+                                endif;
+                            endfor;
+                        endif;
+                        ?>
+
+                    </div>
+
+                    <!-- Cart Summary -->
+                    <div class="cart-amount-summary">
+
+                        <div style="border-bottom: 3px solid black;" ><h3>Mi carrito</h3> </div>
+                        <div style="margin-top:10px; margin-bottom:10px; height: 350px; overflow-x:auto; border-bottom: 3px solid black;">
+                            <ul class="summary-table">
+                                <?php  
+                                if (isset($carrito)):
+                                    $total = 0;
+                                    for ($i=0; $i < count($carrito); $i++): 								
+                                        if ($carrito[$i] != null) :
+                                ?>
+                                <div style="border-bottom: 2px solid grey; margin-top:5px;">
+                                    <li><span>Producto:</span> <span><?=$carrito[$i]['producto']; ?></span></li>
+                                    <li>
+                                        <span>Cantidad:</span> 
+                                        <form action="mi_carrito/actualizar_carrito" method="post">
+                                            <input type="hidden" name="" value="<?=$i;?>">
+                                            <input type="hidden" name="idProductoActualizar" value="<?=$i;?>">
+                                            <span>
+                                                <input type="number" name="cantidadActualizada" value="<?=$carrito[$i]['cantidad'];?>" min="1" max="<?=$carrito[$i]['stock'];?>" style="text-align: center;">
+                                                <button class="btn btn-default" type="submit"><i class="fa fa-refresh"></i></button>
+                                            </span>											
+                                    </form>
+                                    </li>
+                                    <li><?php 
+                                        if($carrito[$i]['cantidad'] < 30):
+                                            echo '<span>Menudeo:</span>  <span>$ '.$carrito[$i]['precioMenudeo'].'</span>';
+                                        else:
+                                            echo '<span>Mayoreo:</span>  <span>$ '.$carrito[$i]['precioMayoreo'].'</span>';
+                                        endif;
+                                        ?>
+                                    </li>
+                                    <li><span>Descuento:</span> <span><?=$carrito[$i]['descuento'];?> % </span> </li>
+                                    <li>
+                                        <?php 
+                                        if($carrito[$i]['cantidad'] < 30):
+                                            if($carrito[$i]['descuento'] > 0): 
+                                                $subtotal = $carrito[$i]['precioDescuento'] * $carrito[$i]['cantidad'];
+                                                $total = $total + $subtotal;
+                                                echo '<span>Subtotal:</span> <span> $ '.$subtotal.'</span>';
+                                            else: 
+                                                $subtotal = $carrito[$i]['precioMenudeo'] * $carrito[$i]['cantidad'];
+                                                $total = $total + $subtotal;
+                                                echo '<span>Subtotal:</span> <span> $ '.$subtotal.'</span>';
+                                            endif;
+                                        else:
+                                            $subtotal = $carrito[$i]['precioMayoreo'] * $carrito[$i]['cantidad'];
+                                            $total = $total + $subtotal;
+                                            echo '<span>Subtotal:</span> <span> $ '.$subtotal.'</span>';
+                                        endif;
+                                        ?>
+                                    </li>
+                                </div>
+                                <?php	
+                                        endif;
+                                    endfor;
+                                endif;
+                                $session->set('total',$total);
+                                ?>
+                                
+                                
+                            </ul>
+                        </div>
+                        <div>
+                            <p style="font-weight: bold; padding-left:25px; color:black">Total: $<?=$total?></p>
+                            <a href="mi_carrito" class="btn essence-btn">Continuar</a>
+                        </div>
+                    </div>
+                
                 </div>
 
-            </div>
+            <?php else: ?>
+                <div class="alert alert-warning" ><h5 style="text-align: center;">No hay productos en el carrito.</h5></div>
+            <?php endif; 
+            else: ?>
+                <div class="alert alert-warning" ><h5 style="text-align: center;">No hay productos en el carrito.</h5></div>
+            <?php endif; 
+        else: ?>
+            <div class="alert alert-warning" ><h5 style="text-align: center;">No hay productos en el carrito.</h5></div>
+        <?php endif; ?>
 
-            <!-- Cart Summary -->
-            <div class="cart-amount-summary">
-
-                <h2>Resumen de pedido</h2>
-                <ul class="summary-table">
-                    <li><span>Subtotal:</span> <span>$274.00</span></li>
-                    <li><span>Envio:</span> <span>Free</span></li>
-                    <li><span>Descuento:</span> <span>-15%</span></li>
-                    <li><span>Total:</span> <span>$232.00</span></li>
-                </ul>
-                <div class="checkout-btn mt-100">
-                    <a href="checkout.html" class="btn essence-btn">Pagar</a>
-                </div>
-            </div>
-        </div>
     </div>
     <!-- ##### Right Side Cart End ##### -->

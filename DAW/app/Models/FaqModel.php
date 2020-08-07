@@ -8,7 +8,7 @@ class FaqModel extends Model
     protected $primaryKey = 'idFaq';
 
     protected $returnType     = 'array';
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
 
     protected $allowedFields = ['usuario_idUsuario', 'pregunta', 'respuesta'];
 

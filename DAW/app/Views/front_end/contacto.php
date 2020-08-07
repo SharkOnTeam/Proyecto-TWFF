@@ -1,3 +1,4 @@
+<?php $session = session()?>
 <div class="contact-area d-flex align-items-center">
 
         <div class="google-map">

@@ -21,6 +21,7 @@ class Faqs extends Controller
 	public function index()
 	{
 		$data = array(
+			'titulo'=>'Faqs-TWFF',
             'categorias'=>$this->categoria_model->findAll(),
 			'subcategorias'=>$this->subcategoria_model->findAll(),
 			'faqs'=>$this->faq_model->findAll()

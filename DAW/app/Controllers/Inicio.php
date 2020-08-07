@@ -24,6 +24,7 @@ class Inicio extends Controller
 	public function index()
 	{	
         $data = array(
+            'titulo'=>'TWFF-Inicio',
             'categorias'=>$this->categoria_model->findAll(),
             'subcategorias'=>$this->subcategoria_model->findAll(),
             'productos'=>$this->producto_model->productos_nuevos(),

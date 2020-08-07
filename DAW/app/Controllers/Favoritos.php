@@ -18,6 +18,7 @@ class Favoritos extends Controller
 	public function index()
 	{
 		$data = array(
+            'titulo'=>'Productos favoritos-TWFF',
             'categorias'=>$this->categoria_model->findAll(),
             'subcategorias'=>$this->subcategoria_model->findAll()
 		);

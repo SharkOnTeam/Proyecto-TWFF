@@ -26,6 +26,7 @@ class Tienda extends Controller
 		$filtro = $this->request->getPost('filtro');
 		if($filtro != null){
 			$data = array(
+				'titulo'=>'Tienda-TWFF',
 				'categorias'=>$this->categoria_model->findAll(),
 				'subcategorias'=>$this->subcategoria_model->findAll(),
 				'productos'=>$this->producto_model->filtrar_producto($filtro),
@@ -38,6 +39,7 @@ class Tienda extends Controller
 			return view('front_end/template/header',$data).view('front_end/tienda',$data).view('front_end/template/footer');
 		}else{
 			$data = array(
+				'titulo'=>'Tienda-TWFF',
 				'categorias'=>$this->categoria_model->findAll(),
 				'subcategorias'=>$this->subcategoria_model->findAll(),
 				'productos'=>$this->producto_model->findAll(),

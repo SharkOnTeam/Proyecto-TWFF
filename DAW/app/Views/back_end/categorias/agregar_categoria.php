@@ -1,15 +1,15 @@
+<?php $session = session();?>
 <!-- Validación del formulario-->
 <script type="text/javascript">
 
-    //Validar espacio
+    //Validar para agregar 
 	function validarEspacio(){
 
         var categoria = document.getElementById('categoria').value;
         var imagenCategoria = document.getElementById('imagenCategoria');
-         
+        
+        //Validar espacios en blanco
 	    if(categoria == null || categoria.length == 0 || /^\s*$/.test(categoria)){
-            
-            document.getElementById('categoria').className = 'is-invalid form-control';
 
             document.getElementById('alerta').style.display = 'block';
             document.getElementById('alerta2').style.display = 'none';
@@ -17,18 +17,17 @@
 		    return false;
 
         }
-         
-        if(categoria.length <= 3){
-            
-            document.getElementById('categoria').className = 'is-invalid form-control';
 
+        //Validar que sea mayor a tres
+        if(categoria.length <= 3){
             document.getElementById('alerta2').style.display = 'block';
             document.getElementById('alerta').style.display = 'none';
           
 		    return false;
 
         }
-         
+        
+        //Validar que el campo de archivo no esté vacío
         if(imagenCategoria.value == ''){
             document.getElementById('alerta4').style.display = 'block';
             document.getElementById('alerta3').style.display = 'none';
@@ -38,15 +37,14 @@
 			
     }
 
-    //Validar espacio
+    //Validar para modificar
 	function validarEspacio2(){
 
         var categoria = document.getElementById('categoria').value;
         var imagenCategoria = document.getElementById('imagenCategoria');
         
+        //Validar espacios en blanco
         if(categoria == null || categoria.length == 0 || /^\s*$/.test(categoria)){
-            
-            document.getElementById('categoria').className = 'is-invalid form-control';
 
             document.getElementById('alerta').style.display = 'block';
             document.getElementById('alerta2').style.display = 'none';
@@ -55,10 +53,8 @@
 
         }
         
+        //Validar que sea mayor a tres
         if(categoria.length <= 3){
-            
-            document.getElementById('categoria').className = 'is-invalid form-control';
-
             document.getElementById('alerta2').style.display = 'block';
             document.getElementById('alerta').style.display = 'none';
         
@@ -68,33 +64,11 @@
    
     }
 
-    function changeColor(){
-
-        var categoria = document.getElementById('categoria').value;
-
-        if(categoria == null || categoria.length == 0 || /^\s*$/.test(categoria)){
-            
-            document.getElementById('categoria').className = 'is-invalid form-control';
-            document.getElementById('alerta').style.display = 'block';
-            document.getElementById('alerta2').style.display = 'none';
-
-            //alert('ERROR: El campo nombre de la categoría no debe ir vacío');
-
-        } else {
-
-            if(categoria.length <= 3){
-                document.getElementById('categoria').className = 'is-invalid form-control';
-                document.getElementById('alerta2').style.display = 'block';
-                document.getElementById('alerta').style.display = 'none';
-
-            }else{
-                document.getElementById('categoria').className = 'is-valid form-control';
-                document.getElementById('alerta').style.display = 'none';
-                document.getElementById('alerta2').style.display = 'none';
-            }
-            
-        }
-
+    function teclear(){
+        document.getElementById('alerta').style.display = 'none';
+        document.getElementById('alerta2').style.display = 'none';
+        document.getElementById('alerta3').style.display = 'none';
+        document.getElementById('alerta4').style.display = 'none';
     }
     
     //Validar la imagen
@@ -126,57 +100,34 @@
         }
     }
 
-    //Validar sólo letras
-    function soloLetras(e) {
-        key = e.keyCode || e.which;
-        tecla = String.fromCharCode(key).toLowerCase();
-        letras = " áéíóúabcdefghijklmnñopqrstuvwxyz0123456789";
-        especiales = [];
-    
-        tecla_especial = false
-        for(var i in especiales) {
-            if(key == especiales[i]) {
-                tecla_especial = true;
-                break;
-            }
-        }
-    
-        if(letras.indexOf(tecla) == -1 && !tecla_especial)
-            return false;
-        
-    }
-    
-    function limpia() {
-        var val = document.getElementById("categoria").value;
-        var tam = val.length;
-        for(i = 0; i < tam; i++) {
-            if(!isNaN(val[i]))
-                document.getElementById("categoria").value = '';
-        }
-    }
 </script>
+
+
             <!-- MAIN CONTENT-->
             <div class="main-content">
                 <div class="section__content section__content--p30">
                     <div class="container-fluid">
 
-                    <div class="col-sm-12" style="display: <?php if($mensaje == null){echo 'none';}else{echo 'block';} ?>;" id="alerta_unico">
-                        <div class="sufee-alert alert with-close alert-danger alert-dismissible fade show">
-                            <span class="badge badge-pill badge-danger">Error</span>
-                            La categoría ya existe.
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    </div>
-                        
+                    <?php if($session->getFlashdata('alerta_categoria') != null): ?>
+                            <div class="col-sm-12" id="alerta_unico">
+                                <div class="sufee-alert alert with-close alert-warning alert-dismissible fade show">
+                                    <span class="badge badge-pill badge-warning">Error </span>
+                                     <?=$session->getFlashdata('alerta_categoria')?>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            </div>
+                    <?php endif;?>
+                    
                         <div class="col-sm-12">
                                 <div class="card">
                                     <div class="card-header">
-                                        <strong>Agregar</strong> categoria
+                                        <strong>Agregar</strong> categoría
                                     </div>
                     
                                      <?php if($categoria != null): ?>
+                                    <!-- Formulario para modificar categoria-->
                                     <form action="categoria/modificar_categoria" method="post" class="" enctype="multipart/form-data">
                                     <div class="card-body card-block">
                                         <?php foreach($categoria as $cat): ?>
@@ -187,7 +138,7 @@
                                                 <small class="form-text text-muted">Ingresa el nombre de la categoría</small>
                                                 <input type="text" id="categoria" name="categoria" placeholder="Ingresa el nombre de la categoría..." 
                                                 class="form-control" value="<?=$cat['categoria'];?>" 
-                                                oninput="return changeColor()" onkeypress="return soloLetras(event)" onblur="limpia()">
+                                                oninput="return teclear()">
                                                 <div class="alert alert-danger" role="alert" id="alerta" style="display: none;">
 											        Porfavor ingrese un nombre.
                                                 </div>
@@ -206,7 +157,7 @@
                                             <div class="form-group col-md-6">
                                                 <label for="imagenCategoria" class=" form-control-label">Imagen</label>
                                                 <div id="imagenPreview"></div>
-                                                <div id="imagenPre" style="display: block;"><img class="img-fluid" style="max-width: 150px;" src="<?=$cat['imagenCategoria']?>"></div>
+                                                <div id="imagenPre" style="display: block;"><img class="img-fluid" style="max-width: 150px;" src="<?=base_url('TWFF/vendor/uploads').'/'.$cat['imagenCategoria']?>"></div>
                                                 <br>
                                                 <input type="file" id="imagenCategoria" name="imagenCategoria" class="form-control-file" onchange="return fileValidation()">
                                                 <input type="hidden" id="imagenCategoria2" name="imagenCategoria2" class="form-control-file" value="<?=$cat['imagenCategoria']?>">
@@ -230,7 +181,8 @@
                                     </form>
 
                                     <?php  else:?>
-                                        
+                                    
+                                    <!-- Formulario para agregar categoria-->
                                     <form action="categoria/guardar_categoria" method="post" class="" enctype="multipart/form-data">
                                     <div class="card-body card-block">
                                         <div class="row">
@@ -238,8 +190,8 @@
                                             <input type="hidden" id="idCategoria" name="idCategoria" class="form-control" value="">
                                             <label for="categoria" class=" form-control-label">Nombre</label>
                                             <small class="form-text text-muted">Ingresa el nombre de la categoría</small>
-                                            <input type="text" id="categoria" name="categoria" placeholder="" class="form-control" value="" oninput="return changeColor()" 
-                                            onkeypress="return soloLetras(event)" onblur="limpia()">
+                                            <input type="text" id="categoria" name="categoria" placeholder="" class="form-control" value="" oninput="return teclear()" 
+                                             onblur="limpia()">
                                             <div class="alert alert-danger" role="alert" id="alerta" style="display: none;">
 											    Porfavor ingrese un nombre.
                                             </div>

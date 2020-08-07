@@ -18,6 +18,7 @@ class Politicas extends Controller
 	public function index()
 	{
 		$data = array(
+            'titulo'=>'Políticas de Privacidad-TWFF',
             'categorias'=>$this->categoria_model->findAll(),
             'subcategorias'=>$this->subcategoria_model->findAll()
 		);
