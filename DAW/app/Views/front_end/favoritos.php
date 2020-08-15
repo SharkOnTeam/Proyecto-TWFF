@@ -1,3 +1,4 @@
+<?php $session = session()?>
 <div class="breadcumb_area bg-img" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-acerca.jpg')?>);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -10,10 +11,11 @@
         </div>
 </div>
 
-<!-- ##### Blog Wrapper Area Start ##### -->
 <div class="blog-wrapper section-padding-80">
         <div class="container">
             <div class="row">
+
+            <?php if($session->has('usuario')): ?> 
 
                 <div class="table-responsive">
                     <table class="table table-hover">
@@ -38,7 +40,12 @@
                     </table>
                 </div>
 
+            <?php else: ?>
+                <div class="alert alert-warning">
+                    <h4>Necesita iniciar sesión para accede a esta sección.</h4>
+                </div>
+            <?php endif; ?>
+
             </div>
         </div>
     </div>
-    <!-- ##### Blog Wrapper Area End ##### -->

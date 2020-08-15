@@ -20,8 +20,7 @@ class Agregar_categoria extends Controller
             
             $data = array(
                 'titulo'=>'Agregar categoría',
-                'categoria'=>$this->categoria_model->getCategoriaById($idCategoria),
-                'mensaje'=>null
+                'categoria'=>$this->categoria_model->getCategoriaById($idCategoria)
             );
             //echo '<pre>';
             //print_r($data);
@@ -30,8 +29,7 @@ class Agregar_categoria extends Controller
             
             $data = array(
                 'titulo'=>'Agregar categoría',
-                'categoria'=>null,
-                'mensaje'=>null
+                'categoria'=>null
             );
             //echo '<pre>';
             //print_r($data);

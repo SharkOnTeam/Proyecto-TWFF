@@ -12,16 +12,17 @@ class CategoriaModel extends Model
 
     protected $allowedFields = ['categoria','imagenCategoria','deleted'];
 
-    /*protected $validationRules = [
-            'categoria' => 'required|is_unique'
-        ];
+    protected $validationRules = [
+        'categoria' => 'trim|alpha_numeric_space'
+    ];
 
     protected $validationMessages = [
         'categoria' => [
-            'required' => 'El nombre de la categoria es obligatorio',
-            'is_unique' => 'Ya existe una categoria con ese nombre'
+            'alpha_numeric_space' => 'Sólo se premiten letras y números.'
         ]
-        ];*/
+    ];
+
+    protected $skipValidation = false;
 
     public function getCategoriaByNombre($buscar){
         $db = \Config\Database::connect();

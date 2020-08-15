@@ -6,10 +6,12 @@ use App\Models\CategoriaModel;
 class Categoria extends Controller
 {
     private $categoria_model;
+    private $session = null;
 
     public function __construct()
     {
         $this->categoria_model = new CategoriaModel();
+        $this->session = \Config\Services::session();
 	}
 	
 	public function index()
@@ -53,37 +55,38 @@ class Categoria extends Controller
             }
         }
 
-        //print_r($i);
+        if(!$ruta->hasMoved()){
+            $ruta->move(ROOTPATH . 'vendor/uploads');
+        }
+
+       $data = [
+            "categoria" => trim($categoria),
+            "imagenCategoria" => $ruta->getName(),
+            "deleted" => $deleted
+        ];
 
         if($i > 0){
-           
-            echo "<script>alert('ERROR: La categoría ya existe');</script>";
-            //return redirect()->to(base_url('TWFF/public/agregar_categoria'),'refresh');
-            //return redirect(base_url('TWFF/public/agregar_categoria'),'refresh');
-            return redirect()->to(base_url('TWFF/public/agregar_categoria'));
 
+            unlink(ROOTPATH . 'vendor/uploads/' . $ruta->getName());
+            $this->session->setFlashdata('alerta_categoria', 'Ya existe una categoría con ese nombre.');
+            return redirect()->to(base_url('TWFF/public/agregar_categoria'));
 
         }else{
 
-            if(!$ruta->hasMoved()){
-                $ruta->move('C:/xampp/htdocs/TWFF/vendor/uploads');
+            if($this->categoria_model->insert($data)==false){
+                unlink(ROOTPATH . 'vendor/uploads/' . $ruta->getName());
+                $errors = $this->categoria_model->errors();
+                foreach($errors as $error){
+                    $error;
+                }
+                $this->session->setFlashdata('alerta_categoria',$error);
+                return redirect()->to(base_url('TWFF/public/agregar_categoria'));
+            }else{
+                $this->session->setFlashdata('alerta_exitosa', 'Registro exitoso.');
+                return redirect()->to(base_url('TWFF/public/categoria'));
             }
 
-            $imagenCategoria = base_url('TWFF/vendor/uploads')."/".$ruta->getName();
-
-            $data = [
-                "categoria" => $categoria,
-                "imagenCategoria" => $imagenCategoria,
-                "deleted" => $deleted
-            ];
-
-            //echo '<pre>';
-            //print_r($data);
-
-            $this->categoria_model->insert($data);
-            return redirect()->to(base_url('TWFF/public/categoria'));
-
-        }  
+        }
     }
 
     public function modificar_categoria()
@@ -97,30 +100,27 @@ class Categoria extends Controller
         $bd_categorias = $this->categoria_model->getNombresCategoria();
         $i=0;
         $categoria2 = $this->categoria_model->getCategoriaById($idCategoria);
-
-        //print_r($categoria2[0]['categoria']);
         
         if($categoria2[0]['categoria'] == $categoria){
+
             if($ruta->getName() != ""){
                 if(!$ruta->hasMoved()){
-                    $ruta->move('C:/xampp/htdocs/TWFF/vendor/uploads');
+                    $ruta->move(ROOTPATH . 'vendor/uploads');
                 }
-                $imagenCategoria = base_url('TWFF/vendor/uploads')."/".$ruta->getName();
+                unlink(ROOTPATH . 'vendor/uploads/' . $imagenCategoria2);
+                $imagenCategoria = $ruta->getName();
             }else{
                 $imagenCategoria = $imagenCategoria2;   
             }
             
-    
             $data = [
-                "categoria" => $categoria,
+                "categoria" => trim($categoria),
                 "imagenCategoria" => $imagenCategoria,
                 "deleted" => $deleted
             ];
-    
-            //echo '<pre>';
-            //print_r($data);
-    
+
             $this->categoria_model->update($idCategoria,$data);
+            $this->session->setFlashdata('alerta_exitosa', 'La categoría se modificó correctamente.');
             return redirect()->to(base_url('TWFF/public/categoria'));
         }else{
             foreach($bd_categorias as $bd_cat){
@@ -128,52 +128,65 @@ class Categoria extends Controller
                     $i = $i +1;
                 }
             }
-
-            //print_r($i);
-
             if($i > 0){
-            
-                echo "<script>alert('ERROR: La categoría ya existe');</script>";
-                //return redirect()->to(base_url('TWFF/public/agregar_categoria'),'refresh');
-                //return redirect(base_url('TWFF/public/agregar_categoria'),'refresh');
-                return redirect()->to(base_url('TWFF/public/agregar_categoria'));
-
-
+                $this->session->setFlashdata('alerta_categoria', 'Ya existe una categoría con ese nombre.');
+                return redirect()->to(base_url('TWFF/public/categoria'));
             }else{
 
                 if($ruta->getName() != ""){
                     if(!$ruta->hasMoved()){
-                        $ruta->move('C:/xampp/htdocs/TWFF/vendor/uploads');
+                        $ruta->move(ROOTPATH . 'vendor/uploads');
                     }
-                    $imagenCategoria = base_url('TWFF/vendor/uploads')."/".$ruta->getName();
+                    $imagenCategoria = $ruta->getName();
                 }else{
                     $imagenCategoria = $imagenCategoria2;   
                 }
                 
-        
                 $data = [
-                    "categoria" => $categoria,
+                    "categoria" => trim($categoria),
                     "imagenCategoria" => $imagenCategoria,
                     "deleted" => $deleted
                 ];
-        
-                //echo '<pre>';
-                //print_r($data);
-        
-                $this->categoria_model->update($idCategoria,$data);
-                return redirect()->to(base_url('TWFF/public/categoria'));
 
+                if($this->categoria_model->update($idCategoria,$data)==false){
+                    if($imagenCategoria = $imagenCategoria2){
+                        $errors = $this->categoria_model->errors();
+                        foreach($errors as $error){
+                            $error;
+                        }
+                        $this->session->setFlashdata('alerta_categoria', $error);
+                        return redirect()->to(base_url('TWFF/public/categoria'));
+                    }else{
+                                               
+                        unlink(ROOTPATH . 'vendor/uploads/' . $ruta->getName());
+                        $errors = $this->categoria_model->errors();
+                        foreach($errors as $error){
+                            $error;
+                        }
+                        $this->session->setFlashdata('alerta_categoria', $error);
+                        return redirect()->to(base_url('TWFF/public/categoria'));
+                    }                  
+                    
+                }else{
+                    if($imagenCategoria = $imagenCategoria2){
+                        
+                        $this->session->setFlashdata('alerta_exitosa', 'La categoría se modificó correctamente.');
+                        return redirect()->to(base_url('TWFF/public/categoria'));
+                    }else{
+                        unlink(ROOTPATH . 'vendor/uploads/' . $ruta->getName());
+                        $this->session->setFlashdata('alerta_exitosa', 'La categoría se modificó correctamente.');
+                        return redirect()->to(base_url('TWFF/public/categoria'));
+                    } 
+                }
             }
         }
-
-
-        
-  
     }
 
     public function eliminar_categoria(){
         $idCategoria = $this->request->getPost('idCategoria');
+        $imagenCategoria = $this->request->getPost('imagenCategoria');
         $this->categoria_model->delete($idCategoria);
+        unlink(ROOTPATH . 'vendor/uploads/' . $imagenCategoria);
         return redirect()->to(base_url('TWFF/public/categoria'));
     }
 

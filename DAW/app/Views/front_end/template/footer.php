@@ -7,7 +7,7 @@
                     <div class="single_widget_area d-flex mb-30">
                         <!-- Logo -->
                         <div class="footer-logo mr-50">
-                            <a href="#"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/TWFF_letras_v3.2.png')?>" alt=""></a>
+                            <a href="inicio"><img src="<?= base_url('TWFF/vendor/template/front_end/img/core-img/TWFF_letras_v3.2.png')?>" alt=""></a>
                         </div>
                         <!-- Footer Menu -->
                         <div class="footer_menu">

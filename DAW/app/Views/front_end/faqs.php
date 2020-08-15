@@ -1,5 +1,4 @@
-<?php $i=0?>
-
+<?php $session = session()?>
 <div class="breadcumb_area bg-img" style="background-image: url(<?= base_url('TWFF/vendor/template/front_end/img/bg-img/bg-acerca.jpg')?>);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
@@ -18,8 +17,9 @@
                 <div class="regular-page-text">
 
 
-                <?php foreach($faqs as $fa): 
-                    $i = $i + 1;?>
+                <?php $i=0; foreach($faqs as $fa): 
+                    $i = $i + 1;
+                    if($fa['deleted'] == 1):?>
                 <a class="collapsed card-link" data-toggle="collapse" href="#<?=$i;?>">
                     <h3><i class="fa fa-plus-square-o" aria-hidden="true"></i> <?=$fa['pregunta'];?></h3>
                 </a>
@@ -28,6 +28,7 @@
                         <p><?=$fa['respuesta'];?></p> 
                     </div>
                     <br>
+                    <?php endif;?>
                 <?php endforeach; ?>
 
                 </div>

@@ -8,9 +8,9 @@ class ComentarioModel extends Model
     protected $primaryKey = 'idComentario';
 
     protected $returnType     = 'array';
-    protected $useSoftDeletes = true;
+    protected $useSoftDeletes = false;
 
-    protected $allowedFields = ['usuario_idUsuario', 'palabraComentario', 'comentario','calificacion','fechaComentario'];
+    protected $allowedFields = ['usuario_idUsuario', 'palabraComentario', 'comentario','calificacion','fechaComentario','deleted'];
 
     /*protected $validationRules = [
             'user' => 'required|min_length(5)|is_unique',
@@ -36,4 +36,26 @@ class ComentarioModel extends Model
             //print_r($query->getResultArray());
         }
 
+    public function getComentarioByNombre($buscar){
+        $db = \Config\Database::connect();
+        $builder = $db->table('comentario c');
+        $builder->select('*');
+        $builder->join('usuario u', 'c.usuario_idUsuario = u.idUsuario');
+        $builder->like('usuario',$buscar,'both');
+        $query = $builder->get();
+        return $query->getResultArray();
+        //echo '<pre>';
+        //print_r($query->getResultArray());
+    }
+
+    public function getComentarioById($idComentario){
+        $db = \Config\Database::connect();
+        $builder = $db->table('comentario');
+        $builder->select('*');
+        $builder->where('idComentario',$idComentario);
+        $query = $builder->get();
+        return $query->getResultArray();
+        //echo '<pre>';
+        //print_r($query->getResultArray());
+    }
 }

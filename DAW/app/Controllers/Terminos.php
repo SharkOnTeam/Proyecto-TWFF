@@ -18,6 +18,7 @@ class Terminos extends Controller
 	public function index()
 	{
         $data = array(
+			'titulo'=>'Términos de uso-TWFF',
             'categorias'=>$this->categoria_model->findAll(),
             'subcategorias'=>$this->subcategoria_model->findAll()
 		);
